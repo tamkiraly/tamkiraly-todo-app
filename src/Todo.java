@@ -1,55 +1,57 @@
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class Todo {
 
     public static void main(String[] args) {
+        TaskList taskList = new TaskList("tasks");
+
         if (args.length < 1) {
-            System.out.println(
-                    "Command Line Todo application\n" +
-                            "=============================\n" +
-                            "\n" +
-                            "Command line arguments:\n" +
-                            "\t-l  Lists all the tasks\n" +
-                            "\t-a  Adds a new task\n" +
-                            "\t-r  Removes an task\n" +
-                            "\t-c  Completes an task");
+            printUsage();
         } else if (args[0].equals("-l")) {
-            printAllTasks();
+            taskList.printAllTasks();
         } else if (args[0].equals("-a")) {
             try {
-                addTaskToFile(args[1]);
+                taskList.addNewTask(args[1]);
             } catch (IndexOutOfBoundsException exception) {
                 System.out.println("Unable to add: no task provided");
             }
         } else if (args[0].equals("-r")) {
             try {
-                removeTask(args[1]);
+                taskList.removeTask(args[1]);
             } catch (NumberFormatException exception) {
                 System.out.println("Unable to remove: index is not a number");
             } catch (ArrayIndexOutOfBoundsException exception) {
                 System.out.println("Unable to remove: no index provided");
             }
-
+        } else if (args[0].equals("-c")) {
+            taskList.checkThisTask(args[1]);
+            System.out.println("Task number " + args[1] + " is checked.");
+        } else {
+            printUsage();
         }
     }
 
+    public static void printUsage() {
+        System.out.println(
+                "Command Line Todo application\n" +
+                        "=============================\n" +
+                        "\n" +
+                        "Command line arguments:\n" +
+                        "\t-l  Lists all the tasks\n" +
+                        "\t-a  Adds a new task\n" +
+                        "\t-r  Removes an task\n" +
+                        "\t-c  Completes an task");
+    }
+
+    //region használatlan kódok
+    /*
     public static List<String> readTasksFromFile() {
         Path filePath = Paths.get("tasks");
-        List<String> lines = new ArrayList<>();
+        List<String> linesFromFile = new ArrayList<>();
         try {
-            lines = Files.readAllLines(filePath);
+            linesFromFile = Files.readAllLines(filePath);
         } catch (IOException exception) {
             System.out.println("File not found");
         }
-        return lines;
+        return linesFromFile;
     }
 
     public static void printAllTasks() {
@@ -59,6 +61,7 @@ public class Todo {
         if (lines.size() == 0) {
             System.out.println("No todos for today :-)");
         } else {
+
             for (int i = 0; i < lines.size(); i++) {
                 System.out.println((i + 1) + " - " + lines.get(i));
             }
@@ -100,4 +103,25 @@ public class Todo {
             System.out.println("File not found");
         }
     }
+
+    public static List<Task> taskStringToObjectList(List<String> fileLines) {
+        fileLines = readTasksFromFile();
+        List<Task> taskList = new ArrayList<>();
+        for (String line : fileLines) {
+            taskList.add(new Task(line));
+        }
+        return taskList;
+    }
+
+    public static void checkTask(String index) {
+        List<String> fileLines = readTasksFromFile();
+        List<Task> taskList = taskStringToObjectList(fileLines);
+        int parseIndexToInt = Integer.parseInt(index);
+        if (taskList.size() >= 2) {
+            taskList.get(parseIndexToInt).checkTask();
+        }
+
+    }
+*/
+    //endregion
 }
