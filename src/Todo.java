@@ -22,8 +22,16 @@ public class Todo {
                 System.out.println("Unable to remove: no index provided");
             }
         } else if (args[0].equals("-c")) {
-            taskList.checkThisTask(args[1]);
-            System.out.println("Task number " + args[1] + " is checked.");
+            try {
+                taskList.checkThisTask(args[1]);
+                System.out.println("Task number " + args[1] + " is checked.");
+            } catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("Unable to check: no index provided");
+            } catch (java.lang.IndexOutOfBoundsException e) {
+                System.out.println("Unable to check: index is out of bound");
+            } catch (NumberFormatException e){
+                System.out.println("Unable to check: index is not a number");
+            }
         } else {
             printUsage();
         }
