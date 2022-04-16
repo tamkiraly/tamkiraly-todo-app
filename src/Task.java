@@ -1,12 +1,16 @@
 public class Task {
     protected String taskDescription;
-    protected boolean isTaskChecked;
+    private boolean isTaskChecked;
 
-    public Task(String lineOfFile){
+    public Task(String lineOfFile) {
         taskDescription = lineOfFile;
     }
 
-    public void checkTask(){
-        this.isTaskChecked = true;
+    public boolean getTaskStatus() {
+        return isTaskChecked;
+    }
+
+    public void checkTask() {
+        isTaskChecked = true;
     }
 }

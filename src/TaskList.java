@@ -60,7 +60,7 @@ public class TaskList {
     public void checkThisTask(String index) {
         int parseIndexToInt = Integer.parseInt(index) - 1;
         if (tasks.size() >= 2) {
-            (tasks.get(parseIndexToInt)).checkTask();
+            tasks.get(parseIndexToInt).checkTask();
         }
     }
 
@@ -69,7 +69,7 @@ public class TaskList {
             System.out.println("No todos for today :-)");
         } else {
             for (int i = 0; i < tasks.size(); i++) {
-                if (tasks.get(i).isTaskChecked) {
+                if (tasks.get(i).getTaskStatus()) {
                     System.out.println((i + 1) + " - " + "[x] " + tasks.get(i).taskDescription);
                 } else {
                     System.out.println((i + 1) + " - " + "[ ] " + tasks.get(i).taskDescription);
