@@ -1,6 +1,6 @@
 public class Task {
     protected String taskDescription;
-    private boolean isTaskChecked;
+    protected boolean isTaskChecked;
 
     public Task(String lineOfFile) {
         taskDescription = lineOfFile;

@@ -29,13 +29,19 @@ public class TaskList {
     public void writeTasksToFile() {
         Path filePath = Paths.get(filename);
         try {
-            Files.writeString(filePath, tasks.get(0).taskDescription);
+            if (tasks.get(0).isTaskChecked) {
+                Files.writeString(filePath, "!ch3ck*_" + tasks.get(0).taskDescription);
+            }
         } catch (IOException exception) {
             System.out.println("File not found");
         }
         try {
             for (int i = 1; i < tasks.size(); i++) {
-                Files.writeString(filePath, "\n" + tasks.get(i).taskDescription, StandardOpenOption.APPEND);
+                if (tasks.get(i).isTaskChecked) {
+                    Files.writeString(filePath, "\n" + "!ch3ck*_" + tasks.get(i).taskDescription, StandardOpenOption.APPEND);
+                } else {
+                    Files.writeString(filePath, "\n" + tasks.get(i).taskDescription, StandardOpenOption.APPEND);
+                }
             }
         } catch (IOException exception) {
             System.out.println("File not found");
@@ -62,6 +68,7 @@ public class TaskList {
         if (tasks.size() >= 2) {
             tasks.get(parseIndexToInt).checkTask();
         }
+        writeTasksToFile();
     }
 
     public void printAllTasks() {
